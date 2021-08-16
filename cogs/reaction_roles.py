@@ -26,7 +26,7 @@ class ReactionRole(commands.Cog):
             self.GUILD.text_channels, id=870977890353831976
         )
 
-    self.wotah_pings.start()
+    # self.wotah_pings.start()
 
   @commands.Cog.listener()
   async def on_ready(self):
