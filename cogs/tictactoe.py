@@ -62,8 +62,9 @@ class TTT(commands.Cog):
             await ctx.send(embed=self.emb)
 
             self.board = [
-                self.white, self.white, self.white, self.white, self.white,
-                self.white, self.white, self.white, self.white
+                ':one: ',':two: ',':three: ',
+                ':four: ',':five: ',':six: ',
+                ':seven: ',':eight: ',':nine: '
             ]
 
             #printing the board
