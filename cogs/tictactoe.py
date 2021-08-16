@@ -45,6 +45,12 @@ class TTT(commands.Cog):
 
     @commands.command(aliases=['t'])
     async def tictactoe(self, ctx, p2: discord.Member):
+        if(ctx.author == p2):
+          if(ctx.author.id != 609310307218620416):
+            await ctx.reply('there is no way you are so alone that you need to play tic-tac-toe with yourself. go make some friends lmao')
+
+            return
+
         self.player1 = ctx.author
         self.player2 = p2
         players = [self.player1, self.player2]
@@ -58,8 +64,14 @@ class TTT(commands.Cog):
                 color=discord.Color.random(),
                 description=desc)
 
+            help = f'**h!t <mention player>** : challenge a player to a tic-tac-toe game \n \n**h!p <square number>** : play your move on your desired square \n \n**h!quit** : resign the game to let the other person win \n \n **h!draw** : [NOT IMPLEMENTED] send a draw offer to your opponent, which they can choose to accpet or decline'
+
+            self.emb.add_field(name = 'COMMANDS', value = help)
+
             await ctx.send(p2.mention)
             await ctx.send(embed=self.emb)
+
+            self.emb.remove_field(0)
 
             self.board = [
                 ':one: ',':two: ',':three: ',
@@ -129,7 +141,7 @@ class TTT(commands.Cog):
 
         await self.switch_turns(ctx)
 
-    @commands.command(aliases = ['r','end'])
+    @commands.command(aliases = ['r','end','quit'])
     async def resign(self,ctx):
       if self.game_over == True:
         ctx.reply('you cant use this command right now!')
