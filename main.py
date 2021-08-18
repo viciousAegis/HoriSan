@@ -12,6 +12,8 @@ from keep_alive import keep_alive
 intents = discord.Intents.all() 
 
 client = commands.Bot(command_prefix = 'h!', case_insensitve = True, intents = intents)
+client.remove_command("help")
+
 
 def load_cogs():
     for file in os.listdir("./cogs"):

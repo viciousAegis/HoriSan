@@ -38,6 +38,9 @@ class ReactionRole(commands.Cog):
   @commands.Cog.listener()
   async def on_raw_reaction_add(self, payload):
 
+    if payload.guild_id == None:
+      return
+
     member = payload.member
 
     if member.bot:
@@ -83,6 +86,9 @@ class ReactionRole(commands.Cog):
   @commands.Cog.listener()
 
   async def on_raw_reaction_remove(self, payload):
+    
+    if payload.guild_id == None:
+      return
 
     member = self.client.get_guild(payload.guild_id).get_member(payload.user_id)
 

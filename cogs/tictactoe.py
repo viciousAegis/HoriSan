@@ -75,17 +75,11 @@ class TTT(commands.Cog):
                 color=discord.Color.random(),
                 description=desc)
 
-            help = f'**h!t <mention player>** : challenge a player to a tic-tac-toe game \n \n**h!p <square number>** : play your move on your desired square \n \n**h!quit** : resign the game to let the other person win \n \n **h!draw** : send a draw offer to your opponent, which they can choose to accpet or decline \n\n REACT BELOW TO ACCEPT OR REJECT THE CHALLENGE'
-
-            self.emb.add_field(name='COMMANDS', value=help)
-
             await ctx.send(p2.mention)
             self.play_msg = await ctx.send(embed=self.emb)
 
             await self.play_msg.add_reaction(self.accept)
             await self.play_msg.add_reaction(self.deny)
-
-            self.emb.remove_field(0)
 
             
         else:
@@ -161,6 +155,12 @@ class TTT(commands.Cog):
         await ctx.send(embed=self.emb)
         self.game_over = True
 
+    @commands.command(aliases = ['fend'])
+    @commands.has_permissions(administrator = True)
+    async def force_end(self, ctx):
+      await ctx.send(f'{ctx.author.mention} ended the game by using **admin waali taakat**')
+      self.game_over = True
+
     @commands.command()
     async def draw(self, ctx):
         if self.game_over or ctx.author not in self.players:
@@ -187,6 +187,9 @@ class TTT(commands.Cog):
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
 
+        if payload.guild_id == None:
+          return
+
         member = payload.member
 
         if member.bot:
@@ -200,7 +203,13 @@ class TTT(commands.Cog):
 
                 desc = f"{self.player2} agreed to play! game on!"
 
-                self.emb.add_field(name="ACCEPTED!", value=desc)
+                self.emb.add_field(name="ACCEPTED!", value=desc, inline = False)
+                
+
+                help = f'**h!t <mention player>** : challenge a player to a tic-tac-toe game \n \n**h!p <square number>** : play your move on your desired square \n \n**h!quit** : resign the game to let the other person win \n \n **h!draw** : send a draw offer to your opponent, which they can choose to accpet or decline'
+
+                self.emb.add_field(name='COMMANDS', value=help)
+
                 await self.play_msg.channel.send(embed=self.emb)
 
                 self.board = [
@@ -228,8 +237,8 @@ class TTT(commands.Cog):
 
                 await self.play_msg.channel.send(embed=self.emb)
 
-            await self.play_msg.clear_reactions()
-            self.emb.remove_field(0)
+            await self.play_msg.delete()
+            self.emb.clear_fields()
 
         if member != self.draw_accepter:
             return
@@ -252,8 +261,8 @@ class TTT(commands.Cog):
 
                 await self.draw_msg.channel.send(embed=self.emb)
 
-            await self.draw_msg.clear_reactions()
-            self.emb.remove_field(0)
+            await self.draw_msg.delete()
+            self.emb.clear_fields()
 
 
 def setup(bot):
