@@ -55,7 +55,7 @@ class Confession(commands.Cog):
 
     
     @commands.command()
-    async def creply(self, ctx, msg_id, *, conf=None):
+    async def creply(self, ctx, msg_id=None, *, conf=None):
 
         if ctx.author.bot:
             return
@@ -68,7 +68,7 @@ class Confession(commands.Cog):
         
         self.confesser = ctx.author
 
-        if conf == None:
+        if msg_id == None:
           await ctx.send("the command is as follows:")
           await ctx.send('> if you want to write a standalone confession: \n **h!confess <your confession here>** \n\n> if you want to reply to a confession: \n **h!creply <confession message id> <your confession here>**')
           
