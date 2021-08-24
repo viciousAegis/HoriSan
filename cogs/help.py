@@ -26,7 +26,7 @@ class Help(commands.Cog):
         emb.add_field(
             name='*confessions*',
             value=
-            '>>> type `h!confess` in DM to confess (only applicable for SynCord)',
+            '>>> type `h!confess` in DM to confess (only applicable for SynCord)\n type `h!creply` in DM to reply to a given confession through the message id',
             inline=False)
 
         emb.add_field(name='*games*', value='>>> `tictactoe[t]`', inline=False)
